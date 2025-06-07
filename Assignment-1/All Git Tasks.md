@@ -132,6 +132,27 @@ Once the pull request is created, it needs to be reviewed and then merged into t
     - Confirm the merge by clicking the "Confirm merge" button.
     - We can now delete the new-feature-branch as it has been successfully merged into the main (or master) branch.
 
+### Task 3: Undo
+1. *Undo the Last Commit (Keep changes locally)*
+
+       git reset --soft HEAD~1
+
+2. *Undo the Last Commit and Discard Changes*
+
+       git reset --hard HEAD~1
+
+3. *Undo the Last Commit and Push the Undo to Remote*
+
+       git reset --hard HEAD~1
+       git push origin HEAD --force
+
+4. *Remove the Last Created File From Remote Repo*
+
+       git rm path/to/filename
+       git commit -m "Remove unwanted file"
+       git push origin master
+
+
 ### Task 4: Resolve Merge Conflicts
 
 *Solution:*
