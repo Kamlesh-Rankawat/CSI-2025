@@ -39,7 +39,7 @@ git commit -m "Assignment-1 Complete"
 
 ### Connect to Remote Repository
 ```bash
-git remote add origin 
+git remote add origin https://github.com/Kamlesh-Rankawat/CSI-2025.git
 ```
 
 ### Push Changes to Remote Repository
@@ -56,24 +56,24 @@ git pull origin main
 
 ## ✅ Assignment Submission Workflow
 
-1. *Clone Repository* (if applicable):
-   bash
-   git clone 
+1. *Clone Repository* (if applicable):https://github.com/Kamlesh-Rankawat/CSI-2025.git
+   
+       git clone 
    
 
 2. *Make Changes* to the assignment files.
 
 3. *Stage and Commit* your changes:
-   bash
-   git add .
-   git commit -m "Completed assignment task "
+
+       git add .
+       git commit -m "Completed assignment task "
    
 
 4. *Push* your changes:
-   bash
-   git push origin main
+  
+       git push origin main
    
 
 5. *Verify* your submission by checking the remote repository.
 
----
+
