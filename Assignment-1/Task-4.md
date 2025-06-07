@@ -1,70 +1,38 @@
-## Task 4: User and Group Management
+# Task 4: User and Group Management
 
-### ➕ 1. Create User and Group
+## Description
+Create a new user and group, set their permissions, and explore user management commands like useradd, usermod, and userdel.
 
-| Command                               | Description |
-|---------------------------------------|-------------|
-| `sudo groupadd devteam`               | Create group |
-| `sudo useradd -m -g devteam user1`    | Create user with home and assign group |
-| `sudo passwd user1`                   | Set user password |
+## Instructions
+1. *Create a New User*
+    
+       sudo useradd newuser
+  
+  ![Screenshot 2025-06-07 235115](https://github.com/user-attachments/assets/d72087fe-1a1e-47bb-95fd-ac89c12d9666)
+  
+   
+3. *Create a New Group*
+    
+       sudo groupadd newgroup
 
-### 🔄 2. Modify Users
+   ![Screenshot 2025-06-07 235408](https://github.com/user-attachments/assets/50164f4b-d712-4543-8248-a8c1b391d5fd)
 
-| Command                                                   | Description |
-|------------------------------------------------------------|-------------|
-| `sudo usermod -l newname oldname`                          | Change username |
-| `sudo usermod -d /home/newhome user1`                      | Change home directory |
-| `sudo usermod -aG sudo user1`                              | Add to additional group |
+5. *Add User to Group*
+    
+       sudo usermod -aG newgroup newuser
+    
 
-### 🗑️ 3. Delete Users and Groups
+6. *Set Permissions for User and Group*
+    
+       sudo chmod 750 /path/to/directory
+    
+   ![Screenshot 2025-06-07 235709](https://github.com/user-attachments/assets/5b6ec589-7326-4f39-a4b9-bdbca7449e39)
 
-| Command                         | Description |
-|----------------------------------|-------------|
-| `sudo userdel user1`             | Delete user |
-| `sudo userdel -r user1`          | Delete user and home |
-| `sudo groupdel devteam`          | Delete group |
+8. *Delete a User*
+    sh
+    sudo userdel newuser
+    
+    ![Screenshot 2025-06-08 000215](https://github.com/user-attachments/assets/8faee530-4c07-4593-8cd5-a607a6d9160c)
 
-### 🔐 4. Set Ownership and Permissions
-
-| Command                                  | Description |
-|------------------------------------------|-------------|
-| `sudo chown user1:devteam file.txt`      | Change file owner/group |
-| `chmod 755 file.txt`                     | Set permissions (rwx for owner, rx for others) |
-
-### 📊 5. User Info & Groups
-
-| Command                     | Description |
-|-----------------------------|-------------|
-| `id user1`                  | Show UID, GID, and groups |
-| `groups user1`              | Show groups of user |
-| `getent passwd user1`       | Get user info from passwd file |
-| `getent group devteam`      | Get group info |
-
----
-
-## 📘 Key System Files
-
-| File Path         | Description |
-|-------------------|-------------|
-| `/etc/passwd`     | Stores user accounts |
-| `/etc/group`      | Stores groups |
-| `/etc/shadow`     | Stores encrypted passwords |
-| `/etc/sudoers`    | Sudo permissions config |
-
----
-
-## 📸 Screenshots
-
-All commands were run and captured in a Linux environment. Refer to the `/screenshots` folder or the GitHub issue links for images used during tasks.
-
----
-
-## 📚 Resources
-
-- [Red Hat User Management Guide](https://www.redhat.com/sysadmin/linux-user-group-management)
-- [Linux File Commands](https://www.redhat.com/sysadmin/create-delete-files-directories-linux)
-
----
-
-> ✅ This guide is part of my **Celebal Technologies DevOps Internship 2025**.
-
+## Resources
+- [Red Hat: Manage Permissions](https://www.redhat.com/sysadmin/manage-permissions)
