@@ -11,47 +11,30 @@ The goal of this task was to understand how to use *Azure Container Registry (AC
 ## 🧩 Step-by-Step Implementation
 
 ### ✅ Step 1: Access Azure Container Registries
-
 - From the Azure Portal, I searched for *Container Registries* and opened the service.
 
-
-
 ### ✅ Step 2: Create a New Azure Container Registry (ACR)
-
-- Clicked on *Create*.
-- Filled in the following configuration:
-  - *Resource Group:* csi_devops_acr
-  - *Registry Name:* csitask3acr (unique name)
-  - *Location:* Central India
-  - *SKU:* Basic (sufficient for this use case)
-
-
-
-- After validating the details, I clicked *Review + Create, then **Create*.
-
+- Clicked **Create**.
+- Filled in the configuration:
+  - **Resource Group:** `csi_devops_acr`
+  - **Registry Name:** `csitask3acr` (must be globally unique)
+  - **Location:** Central India
+  - **SKU:** Basic (sufficient for development) :contentReference[oaicite:1]{index=1}
+- Clicked **Review + Create**, then **Create**.
 
 ### ✅ Step 3: Log in to Azure & ACR
 
-- Logged in to Azure using the CLI:
-
-bash
-az login
-
-
-
-- Then, authenticated with my Container Registry:
-
-bash
-az acr login --name csitask3acr
+    az login
+    az acr login --name csitask3acr
 
 
 ###  Step 4: Tag & Push Docker Image to ACR
 
 - I had already built a custom Node.js image locally. I tagged it using the full ACR path and pushed it to ACR
 
-bash
-podman tag csitask3image csitask3acr.azurecr.io/csitask3image:v1
-podman push csitask3acr.azurecr.io/csitask3image:v1
+
+      podman tag csitask3image csitask3acr.azurecr.io/csitask3image:v1
+      podman push csitask3acr.azurecr.io/csitask3image:v1
 
 
 
