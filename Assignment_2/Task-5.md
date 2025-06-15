@@ -196,20 +196,17 @@ I deployed one *RedHat Linux VM* in each VNet:
 * I logged into the hub-vm from the hub-vnet
 * Used ping to check connection to other VMs using their *private IPs*
 
-bash
-ping dev-vm-private-ip
+
+      ping dev-vm-private-ip
+
+
+
+      ping prod-vm-private-ip
 
 
 
 
-bash
-ping prod-vm-private-ip
-
-
-
-
-bash
-ping test-vm-private-ip
+      ping test-vm-private-ip
 
 
 
