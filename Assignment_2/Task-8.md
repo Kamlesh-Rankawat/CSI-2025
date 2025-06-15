@@ -1,6 +1,6 @@
 # Week 2 – Azure Networking: Task 8
 
-## Task: Set Up a Domain, Configure a Web Server, and Route Traffic Using an Internal DNS Server
+## 📌 Task: Set Up a Domain, Configure a Web Server, and Route Traffic Using an Internal DNS Server
 
 ## Objective
 
