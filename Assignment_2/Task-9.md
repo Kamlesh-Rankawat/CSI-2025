@@ -2,191 +2,148 @@
 
 ## 📌 Task: Explore Azure Storage Account Capabilities
 
-In this task, I explored Azure Storage Account features such as blobs, file shares, access controls, tiers, lifecycle policies, replication, and Azure File Sync. Here's what I did step-by-step, with real hands-on execution.
+## 🎯 Objective
+Explore and test key Azure Storage features including Blob, File Shares, Azure Storage Explorer, Access Keys, SAS, policies, lifecycle rules, and replication.
 
 ---
 
-## Step 1: Created a Storage Account
+## ☁️ Step 1: Create Azure Storage Account
 
-I Navigated to the Azure portal and started the process of creating a new Storage Account. I named it csidevopsstorage and selected East-US as the region to keep it local.
+```bash
+az storage account create   --name mystoragekamlesh   --resource-group MyResourceGroup   --location eastus   --sku Standard_LRS
+```
 
-![storage-account-portal](./snapshots/task9-storage-basic.jpg)
+Explore all options like:
+- `Performance`: Standard / Premium
+- `Replication`: LRS, GRS, RA-GRS
+- `Access tier`: Hot / Cool / Archive
 
-- I chosen the Standard performance tier for cost efficiency.
+---
 
-- For redundancy, I picked Read-access geo-redundant storage (RA-GRS) to make sure my data is highly available, even in case of regional outages.
+## 📤 Step 2: Upload & Access Blob
 
-- I left the default Access Tier as Hot since I wanted frequent access during testing.
+```bash
+az storage container create --account-name mystoragekamlesh --name mycontainer --public-access blob
 
-Once created, the account was ready to host different types of data.
+az storage blob upload   --account-name mystoragekamlesh   --container-name mycontainer   --name sample.txt   --file ./sample.txt
+```
 
-![storage-account](./snapshots/storage-account-created.jpg)
+Verify uploaded blob using Azure Portal or CLI.
 
-## Step 2: Created a Blob Container and Uploading Data
+---
 
-Next, I went to the storage account and navigated to Containers. I created a container named csi-devops-blob and set its access level to Private for now to keep data secure.
+## 🔐 Step 3: Authentication Technologies
 
-![blob-container](./snapshots/task9-blob-container.jpg)
+- Access Keys (primary/secondary)
+- Shared Access Signature (SAS)
+- Stored Access Policy
+- Azure AD Authentication
 
-Then, I uploaded a test file called week2.txt, vikas-resume.docx into the container.
+> Explore using **Azure Storage Explorer** or Portal
 
-- The file uploaded successfully, and I could see it listed under blobs.
+---
 
-![blob-view](./snapshots/task9-blob-view.jpg)
+## 🔑 Step 4: Use Access Keys
 
-- I also checked blob properties and used the URL to confirm that access is restricted due to private mode.
+```bash
+az storage account keys list --account-name mystoragekamlesh
 
-![blob-properties](./snapshots/task9-blob-properites.jpg)
+# Use keys in Storage Explorer or apps to connect
+```
 
-![access-view](./snapshots/task9-webview.jpg)
+---
 
-## Step 3: Explored Authentication Techniques
+## 🔗 Step 5: Create SAS Token
 
-To understand how access control works in Azure Storage, I tested multiple authentication methods.
+```bash
+az storage container generate-sas   --account-name mystoragekamlesh   --name mycontainer   --permissions rwdl   --expiry 2025-12-31T23:59Z   --output tsv
+```
 
-### A. Using Access Keys & Viewed by Storage explorer
+Append SAS token to the container URL to access.
 
-- I picked one of the two Access Keys available under the Access Keys tab.
+---
 
-![access-keys](./snapshots/task9-storage-access-keys.jpg)
+## 🔐 Step 6: Stored Access Policy
 
-- Then, I connected my storage account to Azure Storage Explorer using the key.
+```bash
+az storage container policy create   --account-name mystoragekamlesh   --container-name mycontainer   --name mypolicy   --permissions rw   --expiry 2025-12-31T23:59Z
+```
 
-![storage-explorer](./snapshots/task9-storage-explorer.jpg)
+Use policy with SAS for scoped access.
 
-- Through this, I was able to upload and download blobs without issues.
+---
 
-![access-keys](./snapshots/task9-storage-exploer-upload.jpg)
+## 🧊 Step 7: Access Tiers
 
-### B. Using Shared Access Signature (SAS, Storage Account Level)
+| Tier     | Use Case                     |
+|----------|------------------------------|
+| Hot      | Frequently accessed data     |
+| Cool     | Infrequently accessed        |
+| Archive  | Rarely accessed, cheap store |
 
-- I generated a SAS token with Read and Write permissions, a limited IP range, and a short expiration time.
+```bash
+az storage blob set-tier --account-name mystoragekamlesh --container-name mycontainer --name sample.txt --tier Cool
+```
 
-![storage-SAS](./snapshots/storage+SAS.jpg)
+---
 
-- I tested the generated URL in the storage explorer, and it worked—only within the defined scope.
+## 🔄 Step 8: Lifecycle Policy
 
-![storage-explorer-connection](./snapshots/task9-storage-explorer.jpg)
+```json
+{
+  "rules": [
+    {
+      "enabled": true,
+      "name": "archive-after-30-days",
+      "type": "Lifecycle",
+      "definition": {
+        "filters": {
+          "blobTypes": [ "blockBlob" ],
+          "prefixMatch": [ "sample" ]
+        },
+        "actions": {
+          "baseBlob": {
+            "tierToArchive": { "daysAfterModificationGreaterThan": 30 }
+          }
+        }
+      }
+    }
+  ]
+}
+```
 
-![storage-explorer-view](./snapshots/storageexplorer+sas.jpg)
+Apply this using portal or Azure CLI.
 
-### C. Stored Access Policy + SAS (Container + Blob Level)
+---
 
-- I created a Stored Access Policy at the container level.
+## 🌍 Step 9: Test Object Replication
 
-![access-policy](./snapshots/created-access-policy.jpg)
+Enable **Object Replication** between two storage accounts for a container.
 
-- Then, I generated a SAS token tied to that policy to access a specific blob if require we can generate SAS token for container level as well.
+---
 
-![blob-sas-token](./snapshots/sas+access.jpg)
+## 📁 Step 10: Create File Share
 
-- This gave me more centralized control over the access scope and expiration.
-- Now i can able to view the blob in browser
+```bash
+az storage share create   --name myfileshare   --account-name mystoragekamlesh
+```
 
-![blob-view](./snapshots/blob-view.jpg)
+Upload files and test using Azure Storage Explorer.
 
-## Step 4: Access Tiers
+---
 
-- Switched between *Hot, **Cool, **Cold* and *Archive* tiers for uploaded blob
-- Observed:
+## 🔁 Step 11: Azure File Sync (Portal)
 
-  - *Hot*: Fast access, higher cost, Ideal for frequently accessed data.
-  - *Cool*: For infrequently accessed data but still needed online, cheaper.
+1. Create Azure File Sync service.
+2. Register on-prem Windows Server.
+3. Create sync group and endpoints.
+4. Test syncing changes both ways.
 
-  ![cool-tier](./snapshots/cool-tier.jpg)
+---
 
-  ![cool-tier-view](./snapshots/cool-tier-view.jpg)
+## 👨‍💻 Submitted by
 
-  - *Cold*: For data that is rarely accessed, cheaper than Hot and Cool, but slower
-
-  ![cold-tier](./snapshots/cold-tier.jpg)
-
-  - *Archive*: Meant for long-term backup and is offline by default.
-
-  ![archive-tier](./snapshots/archive-tier.jpg)
-
-  - After moving to Archive, I tested rehydration to bring the blob back online, which took some time.
-
-> Rehydration -> The process of transitioning an archived blob back to an online tier (Hot or Cool) so it becomes accessible again.
-
-## Step 5: Lifecycle Management Policies
-
-To automate data transitions and cleanup, I created a lifecycle management policy, So I configured a rule targeting *base blobs* (i.e., current active blobs), with the following actions:
-
-- *Move to Cold* tier after *7 days*
-- *Move to Archive* tier after *20 days*
-- *Delete* the blob after *90 days*
-
-This ensures my main blobs follow a cost-efficient storage path without managing snapshots or versions.
-
-![life-cycle](./snapshots/lifecycle-storage.jpg)
-
-## Step 6: Blob Replication
-
-I explored Object Replication to keep data in sync across regions.
-
-- Created a two storage accounts named as objectreplica1 objectreplica2.
-
-![storage-accounts](./snapshots/object-replica-storage.jpg)
-
-- After that created two containers named as replica1sourcecontaienr replica2destinationcontainer.
-
-![replica1-container](./snapshots/object-replica1-container.jpg)
-
-![replica2-container](./snapshots/replica2-container.jpg)
-
-- Enabled replication by configuring the source and destination pairing.
-
-![object-replication](./snapshots/object-replication.jpg)
-
-- Uploaded a file in the objectreplica1 of sourcereplicacontainer
-
-![uploaded-blob](./snapshots/uploadfile-replication.jpg)
-
-- Successfully replicated same file automatically into objectreplica2 of replica2destinationcontainer
-
-![verified-replica-id](./snapshots/replication-id.jpg)
-
-![replicated-blob](./snapshots/replicated-blob.jpg)
-
-> If we want two-way replication, we have to set up another rule in the opposite direction as well.
-
-## Step 7: Azure File Share & File Sync
-
-### Created File Share
-
-- Created a file share named devopsfileshare in the storage account.
-
-![file-share-created](./snapshots/filesharecreated.jpg)
-
-- Uploaded mylinkedin Image directly through the *Azure Portal*.
-
-![file-share-uploaded](./snapshots/imagefileupload.jpg)
-
-### Connected via Azure File Sync
-
-#### Windows Server Setup
-
-- Deployed a *Windows Server VM*.
-
-![windows-vm](./snapshots/fileshare-vm.jpg)
-
-- Installed the *Azure File Sync*.
-
-![file-share-agent](./snapshots/window-fileshare.jpg)
-
-#### Sync Test
-
-- Linked a local folder on the VM to the file share.
-- Successfully tested *bi-directional sync*:
-  - ✅ Files created in the file share appeared on the server.
-
-  ![file-uploaded-vm](./snapshots/filecreatefromvm.jpg)
-
-  - ✅ Files added locally were synced back to Azure.
-
-  ![file-sync-to-azure](./snapshots/filesyncdone.jpg)
-
-## Conclusion
-
-This task gave me a complete overview of how Azure handles various types of storage needs. I tested authentication techniques, access tiers, policies, replication, and file synchronization. These are critical for managing enterprise data efficiently and securely.
+**Kamlesh Rankawat**  
+B.Tech Final Year | DevOps Specialization  
+📧 rankawatkamlesh02022006@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/kamlesh-rankawat-73b698361)
