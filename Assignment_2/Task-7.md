@@ -47,19 +47,17 @@ Navigated to *Application Gateways* in Azure Portal and clicked *Create*:
 - *Tier:* Standard V2 (for better features and autoscaling)
 - *VNet/Subnet:* Selected app-gtw-subnet under existing VNet
 
-![application-loadbalancer](./snapshots/task7-gtw.jpg)
 
 ### ✅ Step 4: Configure Frontend and Backend
 
 - *Frontend Configuration:*
   - elected the *existing public IP* for incoming traffic
 
-![frontend-ip](./snapshots/task7-frontendip.jpg)
 
 - *Backend Pool:*
   - Configured with the *private IP addresses* of both VMs to distribute traffic via the Application Load Balancer.
 
-![app-gtw-pool](./snapshots/task7-backend-pool.jpg)
+
 
 - *Health Probe:*
 
@@ -75,21 +73,21 @@ Navigated to *Application Gateways* in Azure Portal and clicked *Create*:
   - Listener: HTTP on port 80
   - Backend target: backend pool
 
-![configuration-app-gtw](./snapshots/task7-app-gtw-config.jpg)
+
 
 ### ✅ Step 5: Review and Create
 
 - Clicked on *Review + Create*
 - Waited for the deployment to complete (~10 minutes)
 
-![app-gtw-review](./snapshots/task7-gtw-review.jpg)
+
 
 ### Step 6: Deployed Application Loadbalancer
 
 - Successfully deployed the Application Gateway.
 - The Application Gateway is now accessible via the public IP address.
 
-![app-gtw](./snapshots/task7-app-gtw-deploy.jpg)
+
 
 ### ✅ Step 7: Test Application Gateway
 
@@ -97,7 +95,6 @@ Navigated to *Application Gateways* in Azure Portal and clicked *Create*:
 - Pasted in browser → Successfully saw the custom page
 - Refreshed several times → Confirmed *load balancing* by seeing different VM messages
 
-[Watch Application Gateway Testing](https://drive.google.com/file/d/1PYxqpVhif9LNPTK9FW3TBC0ZO7wrR5im/view?usp=sharing)
 
 <video width="640" height="360" controls>
   <source src="https://drive.google.com/file/d/1PYxqpVhif9LNPTK9FW3TBC0ZO7wrR5im/view?usp=sharing" type="video/mp4">
