@@ -108,9 +108,9 @@ az role assignment create \
 
 ---
 
-## ✔️ Final Testing
 
-- Login to the portal as the test user.
-- Confirm read access to virtual machines and resource groups.
-- Ensure no write/delete permissions are granted.
+## Photo
+
+![Screenshot 2025-06-22 195410](https://github.com/user-attachments/assets/aafb5658-a157-4676-8853-e63d8cb6f8ce)
+![Screenshot 2025-06-22 195428](https://github.com/user-attachments/assets/ae4c0e4e-6f11-41d9-a6cf-7d18c4532e96)
 
