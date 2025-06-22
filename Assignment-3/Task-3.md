@@ -70,3 +70,10 @@ az policy assignment create \
 - Deploy in **eastus** → Expected: **Success**
 
 ---
+## 📸 Screenshots
+![Screenshot 2025-06-22 123512](https://github.com/user-attachments/assets/c1ffbe8f-5e9c-457f-81c6-db52dd4dbed0)
+![Screenshot 2025-06-22 190941](https://github.com/user-attachments/assets/f7cc1021-3e5f-4fc3-a261-c768984f8c18)
+![Screenshot 2025-06-22 191008](https://github.com/user-attachments/assets/eed2eaef-3f87-4267-a77d-b2390ca62ea2)
+![Screenshot 2025-06-22 191030](https://github.com/user-attachments/assets/71d3132c-c334-44ac-b0d4-34c241f49f39)
+
+
