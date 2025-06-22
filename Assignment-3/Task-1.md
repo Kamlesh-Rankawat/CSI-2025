@@ -1,7 +1,7 @@
 
-# 🔐 Azure Entra ID Setup & Role Assignment Guide
+# 🔐 Azure Entra ID Setup & Role Assignment 
 
-This guide documents the process to set up Azure Entra ID (formerly Azure AD), create test users/groups, assign built-in and custom RBAC roles.
+This documents the process to set up Azure Entra ID (formerly Azure AD), create test users/groups, assign built-in and custom RBAC roles.
 
 ---
 
