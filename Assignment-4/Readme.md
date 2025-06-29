@@ -1,4 +1,4 @@
-# 🐳 Docker Study Guide: From Basics to Best Practices
+# 🐳 Docker Study: From Basics to Best Practices
 
 This covers the essential concepts and hands-on commands for working with Docker, including installation, container operations, image creation, networking, storage, security, and multi-container orchestration.
 
