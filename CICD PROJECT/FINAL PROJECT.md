@@ -1,71 +1,164 @@
-# 🚀 Project: Azure DevOps CI/CD for Spring Boot App on ACI
-## 🔹 1. Login to Azure
+# 🚀 Final Project Submission
+
+## Azure DevOps CI/CD Pipeline for Spring Boot Application on Azure Container Instances (ACI)
+
+### 👨‍💼 Developed by: **Kamlesh Rankawat**
+
+### 🧪 Domain: DevOps | ☕️ Platform: Azure | ⚙️ Tools: Spring Boot, Docker, ACR, ACI, Azure DevOps
+
+---
+
+## 📘 Project Overview
+
+This project demonstrates a complete **CI/CD pipeline using Azure DevOps** to build, containerize, and deploy a **Java Spring Boot application** on **Azure Container Instances (ACI)** via **Azure Container Registry (ACR)**. It automates the entire workflow from source code push to live deployment, showcasing modern DevOps principles and cloud-native deployment practices.
+
+---
+
+## ⚙️ Tech Stack
+
+| Layer            | Technology Used                 |
+| ---------------- | ------------------------------- |
+| Programming      | Java with Spring Boot           |
+| Build Tool       | Maven                           |
+| Containerization | Docker                          |
+| Registry         | Azure Container Registry (ACR)  |
+| Deployment       | Azure Container Instances (ACI) |
+| CI/CD Automation | Azure DevOps Pipelines          |
+| CLI Tool         | Azure CLI                       |
+
+---
+
+## 📂 Project Structure
+
+```
+springboot-aci-project/
+├── src/main/java/com/example/demo/DemoApplication.java
+├── Dockerfile
+├── pom.xml
+├── azure-pipelines.yml
+└── target/springboot-aci-0.0.1-SNAPSHOT.jar
+```
+
+---
+
+## 🧠 Step-by-Step Workflow with Theoretical Explanation
+
+### 🔹 1. Login to Azure
+
 ```bash
 az login
 ```
-## 🔹 2. Create Resource Group
+
+**Why?**
+Establishes a secure CLI session with Azure so you can provision and manage cloud resources.
+
+---
+
+### 🔹 2. Create a Resource Group
+
 ```bash
 az group create --name my-rg --location centralindia
 ```
-## 🔹 3. Create Azure Container Registry (ACR)
+
+**Why?**
+Resource groups in Azure help logically organize and manage related resources like containers, registries, and networking.
+
+---
+
+### 🔹 3. Set up Azure Container Registry (ACR)
+
 ```bash
 az acr create --resource-group my-rg --name myacrkamlesh --sku Basic --admin-enabled true
 ```
-## 🔹 4. Login to ACR
+
+**Why?**
+ACR is a private container registry used to store and serve Docker images securely inside the Azure ecosystem.
+
+---
+
+### 🔹 4. Login to ACR
+
 ```bash
 az acr login --name myacrkamlesh
 ```
-## 🔹 5. Spring Boot Application Code
- ' DemoApplication.java '
+
+**Why?**
+Authenticates the Docker CLI with ACR to allow pushing and pulling images programmatically or manually.
+
+---
+
+### 🔹 5. Spring Boot Application Code
+
 ```java
-package com.example.demo;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
-
-@SpringBootApplication
-@RestController
-public class DemoApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-
-    @GetMapping("/")
-    public String home() {
-        return "✅ Spring Boot App Running on Azure Container Instance!";
-    }
+@GetMapping("/")
+public String home() {
+    return "✅ Spring Boot App Running on Azure Container Instance!";
 }
 ```
-## 🔹 6. Build with Maven
+
+**Why?**
+A simple REST endpoint built with Spring Boot that verifies successful container deployment.
+
+---
+
+### 🔹 6. Build the App with Maven
+
 ```bash
 mvn clean package
 ```
-Output: ' target/springboot-aci-0.0.1-SNAPSHOT.jar '
 
-## 🔹 7. Dockerfile
-```Dockerfile
+**Why?**
+Packages the Java application into a `.jar` file, which will be the base of the Docker container.
+
+---
+
+### 🔹 7. Dockerize the Application
+
+**Dockerfile:**
+
+```dockerfile
 FROM openjdk:17-jdk-alpine
 COPY target/springboot-aci-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 ```
-## 🔹 8. Build Docker Image
+
+**Why?**
+Defines how to build the image and run the app inside a lightweight Java container using OpenJDK 17.
+
+---
+
+### 🔹 8. Build Docker Image
+
 ```bash
 docker build -t myacrkamlesh.azurecr.io/springboot-aci:latest .
 ```
-## 🔹 9. Push Docker Image to ACR
+
+**Why?**
+Converts the application into a Docker image tagged with the ACR URL.
+
+---
+
+### 🔹 9. Push Image to Azure Container Registry
+
 ```bash
 docker push myacrkamlesh.azurecr.io/springboot-aci:latest
 ```
-## 🔹 10. Deploy to Azure Container Instance (ACI)
+
+**Why?**
+Publishes the image to ACR for secure and scalable deployment on Azure infrastructure.
+
+---
+
+### 🔹 10. Deploy to Azure Container Instance
+
 ```bash
 az container create \
   --resource-group my-rg \
   --name springbootaciapp \
   --image myacrkamlesh.azurecr.io/springboot-aci:latest \
   --registry-login-server myacrkamlesh.azurecr.io \
-  --registry-username $(az acr credential show --name myacrkamlesh --query username -o tsv) \
-  --registry-password $(az acr credential show --name myacrkamlesh --query passwords[0].value -o tsv) \
+  --registry-username <USERNAME> \
+  --registry-password <PASSWORD> \
   --dns-name-label kamleshaci123 \
   --ports 8080 \
   --cpu 1 \
@@ -73,96 +166,107 @@ az container create \
   --location centralindia \
   --os-type Linux
 ```
-##🔹 11. Access the App
+
+**Why?**
+Creates a serverless container instance in Azure that runs your app. You only pay for CPU/RAM used — no VM management required.
+
+---
+
+### 🔹 11. Verify the Application
+
 ```bash
 curl http://kamleshaci123.centralindia.azurecontainer.io:8080/
 ```
-✅ Output:
-```csharp
+
+**✅ Output:**
+
+```
 ✅ Spring Boot App Running on Azure Container Instance!
 ```
-## 🔹 12. Azure DevOps CI/CD Pipeline Setup
-➤ 'azure-pipelines.yml'
+
+**Why?**
+Validates that the app is running and accessible over the public internet.
+
+---
+
+### 🔹 12. Configure Azure DevOps CI/CD
+
+**azure-pipelines.yml (Summary):**
+
 ```yaml
 trigger:
 - main
-
-variables:
-  imageName: 'springboot-aci'
 
 stages:
 - stage: Build
   jobs:
   - job: Build
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
     - task: Maven@3
       inputs:
-        mavenPomFile: 'pom.xml'
         goals: 'package'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '17'
-        publishJUnitResults: false
-
-    - task: CopyFiles@2
-      inputs:
-        contents: 'target/*.jar'
-        targetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        artifactName: 'drop'
 
 - stage: DockerBuildPush
   jobs:
   - job: Docker
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
       inputs:
         containerRegistry: 'myacrkamlesh-connection'
         repository: 'springboot-aci'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: 'latest'
 
 - stage: DeployToACI
   jobs:
   - job: Deploy
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'myAzureConnection'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
         inlineScript: |
-          az container create \
-            --resource-group my-rg \
-            --name springbootaciapp \
-            --image myacrkamlesh.azurecr.io/springboot-aci:latest \
-            --dns-name-label kamleshaci123 \
-            --ports 8080 \
-            --cpu 1 \
-            --memory 1.5 \
-            --location centralindia \
-            --registry-login-server myacrkamlesh.azurecr.io \
-            --registry-username $(az acr credential show --name myacrkamlesh --query username -o tsv) \
-            --registry-password $(az acr credential show --name myacrkamlesh --query passwords[0].value -o tsv) \
-            --os-type Linux
+          az container create ...
 ```
-##  ✅ Final Result
-* Java Spring Boot app containerized ✅
 
-* Docker image pushed to ACR ✅
+**Why?**
+The pipeline automates:
 
-* Deployed to Azure Container Instances ✅
+* ✅ Build (Maven)
+* ✅ Docker Image Creation & Push to ACR
+* ✅ Deployment to ACI using Azure CLI
 
-* CI/CD pipeline using Azure DevOps completed ✅
+---
+
+## ✅ Project Summary
+
+| Objective                               | Status |
+| --------------------------------------- | ------ |
+| Spring Boot App Created                 | ✅      |
+| Docker Image Built and Pushed to ACR    | ✅      |
+| Deployed to Azure Container Instance    | ✅      |
+| Azure DevOps CI/CD Pipeline Implemented | ✅      |
+| Application Accessible via Public URL   | ✅      |
+
+---
+
+## 🌐 Live Demo
+
+```
+http://kamleshaci123.centralindia.azurecontainer.io:8080/
+```
+
+---
+
+## 🏁 Conclusion
+
+This project successfully demonstrates end-to-end DevOps automation using Microsoft Azure and Azure DevOps for Java-based microservices. It follows real-world cloud-native deployment patterns and shows hands-on expertise in CI/CD, Docker, and Infrastructure-as-Code.
+
+##  ✅ Final Checklist Before Screenshot
+| Step                 | Verification                                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 🧩 **App Running**   | Visit `http://kamleshaci123.centralindia.azurecontainer.io:8080/` in browser — check for ✅ message                        |
+| 🐳 **Image in ACR**  | Run `az acr repository list --name myacrkamlesh` and confirm `springboot-aci` is listed                                   |
+| 📦 **ACI Status**    | Run `az container show --name springbootaciapp --resource-group my-rg --query instanceView.state` → should be `"Running"` |
+| 🔁 **CI/CD Success** | Azure DevOps Pipeline should show green check marks for all 3 stages: `Build`, `DockerBuildPush`, `DeployToACI`           |
+| 🧪 **App Test**      | `curl http://kamleshaci123.centralindia.azurecontainer.io:8080/` → Should return the ✅ success string                     |
 
 
 ## Screensort
